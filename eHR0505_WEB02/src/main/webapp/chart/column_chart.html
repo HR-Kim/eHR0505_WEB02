@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    // 차트를 사용하기 위한 준비입니다.
+    google.charts.load('current', {packages: ['corechart']});
+    // 로딩 완료시 함수 실행하여 차트 생성
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      // Define the chart to be drawn.
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Element');
+      data.addColumn('number', 'Percentage');
+      data.addRows([
+        ['질소', 0.78],
+        ['산소', 0.21],
+        ['기타', 0.01]
+      ]);
+
+   // 그래프 옵션
+      var options = {
+          title : '공기중 비율', // 제목
+          width : 600, // 가로 px
+          height : 400, // 세로 px
+          //colors: ['red', 'orange', 'yellow'], // 항목 갯수에 맞게 컬러 설정
+          bar : {
+              groupWidth : '80%' // 그래프 너비 설정 %
+          },
+          legend : {
+              position : 'top' // 항목 표시 여부 (현재 설정은 안함)
+          }
+      };
+
+   
+      var chart = new google.visualization.ColumnChart(document.getElementById('myPieChart'));
+      chart.draw(data, options);
+    }  
+  </script>
+  
+</head>
+<body>
+   <!-- 여기에 차트가 생성됩니다. -->
+   <div id="myPieChart"/>
+</body>
+</html>
