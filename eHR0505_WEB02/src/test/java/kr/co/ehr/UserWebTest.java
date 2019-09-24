@@ -71,6 +71,23 @@ public class UserWebTest {
 		LOG.debug("=dao="+dao);
 		LOG.debug("===============================");
 	}
+
+	@Test
+	public void do_login() throws Exception {
+		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.post("/user/do_login.do")
+				                                        .param("passwd", users.get(1).getPasswd())
+														.param("u_id", users.get(1).getU_id());
+		
+		ResultActions resultActions = mockMvc.perform(createMessage)
+		                             .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
+		                             .andExpect(MockMvcResultMatchers.jsonPath("$.msgId", is("1")));
+		String result = resultActions.andDo(print())
+										.andReturn()
+										.getResponse().getContentAsString();
+		LOG.debug("===============================");
+		LOG.debug("=result="+result);
+		LOG.debug("===============================");
+	}	
 	
 	@Test
 	@Ignore
@@ -111,6 +128,7 @@ public class UserWebTest {
 	
 	//CRUD
 	@Test
+	@Ignore
 	public void addAndGet() throws Exception {
 		LOG.debug("======================================");
 		LOG.debug("=01. 기존 데이터 삭제=");
@@ -340,6 +358,7 @@ public class UserWebTest {
 									.andDo(print());
 	}
 	
+	@Ignore
 	@Test
 	public void instanceTest() {
 		LOG.debug("===============================");

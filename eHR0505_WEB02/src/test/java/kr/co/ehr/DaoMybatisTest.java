@@ -58,6 +58,16 @@ public class DaoMybatisTest {
 	}
 	
 	@Test
+	public void do_login() {
+		int flag = userDaoImpl.idCheck(users.get(1));
+		assertThat(1, is(flag));
+		
+		flag = userDaoImpl.passCheck(users.get(1));
+		assertThat(1, is(flag));
+	}
+	
+	@Test
+	@Ignore
 	public void get_retrieve() {
 		Search vo = new Search(10,1,"10","_124"); //생성자 참고해서 하드코딩
 		List<User> list = (List<User>) userDaoImpl.get_retrieve(vo); //List에 담아야함. User에 대한내용을

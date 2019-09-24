@@ -13,10 +13,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import com.google.gson.Gson;
+
+import kr.co.ehr.board.service.Board;
 import kr.co.ehr.board.service.BoardService;
+import kr.co.ehr.cmn.Message;
 import kr.co.ehr.cmn.StringUtil;
 import kr.co.ehr.code.service.Code;
 import kr.co.ehr.code.service.CodeService;
@@ -40,7 +45,110 @@ Logger LOG = LoggerFactory.getLogger(this.getClass());
 	//View
 	private final String VIEW_LIST_NM = "board/board_list";
 	private final String VIEW_MNG_NM = "board/board_mng";
-	//http://localhost:8080/ehr/user/do_user_view.do
+
+	//등록
+	@RequestMapping(value="board/do_save.do",method = RequestMethod.POST
+			,produces = "application/json; charset=UTF-8")
+	@ResponseBody	
+	public String do_save(Board board) { 
+		LOG.debug("1=========================");
+		LOG.debug("=@Controller=board=="+board);
+		LOG.debug("1=========================");
+		
+		//validation
+		int flag = boardService.do_save(board);
+		Message message=new Message();
+		if(flag>0) {
+			message.setMsgId(flag+"");
+			message.setMsgMsg(board.getTitle()+"이 등록 되었습니다.");
+		}else {
+			message.setMsgId(flag+"");
+			message.setMsgMsg(board.getTitle()+", 등록 실패.");			
+		}
+	
+		//JSON
+		Gson gson=new Gson();
+		String json = gson.toJson(message);
+		LOG.debug("1=========================");
+		LOG.debug("=@Controller=json=="+json);
+		LOG.debug("1=========================");
+		return json;
+	}
+	
+	//수정
+	@RequestMapping(value="board/do_update.do",method = RequestMethod.POST
+			,produces = "application/json; charset=UTF-8")
+	@ResponseBody		
+	public String do_update(Board board) {
+		LOG.debug("1=========================");
+		LOG.debug("=@Controller=board=="+board);
+		LOG.debug("1=========================");
+		
+		//validation
+		int flag = boardService.do_update(board);
+		Message message=new Message();
+		if(flag>0) {
+			message.setMsgId(flag+"");
+			message.setMsgMsg(board.getTitle()+"이 수정 되었습니다.");
+		}else {
+			message.setMsgId(flag+"");
+			message.setMsgMsg(board.getTitle()+"이 수정 실패.");			
+		}
+	
+		//JSON
+		Gson gson=new Gson();
+		String json = gson.toJson(message);
+		LOG.debug("2=========================");
+		LOG.debug("=@Controller=json=="+json);
+		LOG.debug("2=========================");
+		return json;		
+	}	
+	
+	//삭제
+	@RequestMapping(value="board/do_delete.do",method = RequestMethod.POST
+			,produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public String do_delete(Board board) {
+		LOG.debug("=========================");
+		LOG.debug("=@Controller=board=="+board);
+		LOG.debug("=========================");
+		
+		//flag>0성공,실패
+		int flag = boardService.do_delete(board);
+		Message message=new Message();
+		
+		if(flag>0) {
+			message.setMsgId(flag+"");
+			message.setMsgMsg("삭제 되었습니다.");
+		}else {
+			message.setMsgId(flag+"");
+			message.setMsgMsg("삭제 실패.");			
+		}
+		
+		//JSON변환
+		Gson gson=new Gson();
+		String json = gson.toJson(message);
+		LOG.debug("=========================");
+		LOG.debug("=@Controller삭제 gson=user=="+json);
+		LOG.debug("=========================");		
+		return json;
+	}
+	
+	//단건조회
+	@RequestMapping(value="board/get_select_one.do",method = RequestMethod.GET)
+	public String get_selectOne(Board board,Model model) {
+		LOG.debug("=========================");
+		LOG.debug("=@Controller=board=="+board);
+		LOG.debug("=========================");
+		if(null == board.getBoardId()|| "".equals(board.getBoardId())) {
+			throw new IllegalArgumentException("ID를 입력 하세요.");
+		}
+		Board outVO = (Board) boardService.get_selectOne(board);
+		
+		model.addAttribute("vo", outVO);
+		
+		return VIEW_MNG_NM;
+	}
 	
     //ExcelDown
 	@RequestMapping(value="board/exceldown.do",method=RequestMethod.GET)
@@ -118,7 +226,7 @@ Logger LOG = LoggerFactory.getLogger(this.getClass());
 		List<Code> excelList = (List<Code>) codeService.get_retrieve(code);
 		model.addAttribute("excelList", excelList);
 		
-		List<User> list = (List<User>) this.boardService.get_retrieve(search);
+		List<Board> list = (List<Board>) this.boardService.get_retrieve(search);
 		model.addAttribute("list", list);
 		
 		

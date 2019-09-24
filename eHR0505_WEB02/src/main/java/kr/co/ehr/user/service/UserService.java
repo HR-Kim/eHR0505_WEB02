@@ -25,4 +25,8 @@ public interface UserService {
 	public int do_save(DTO dto);
 	/**등업*/
 	public void tx_upgradeLevels() throws SQLException;
+	
+	/**회원로그인*/
+	public DTO do_loginValidation(DTO dto);
+	
 }

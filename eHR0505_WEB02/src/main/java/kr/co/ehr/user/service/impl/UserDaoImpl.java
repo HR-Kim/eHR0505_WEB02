@@ -29,6 +29,54 @@ public class UserDaoImpl implements WorkDiv {
 	
 	public UserDaoImpl() {}
 	
+	/**
+	 * ID 확인
+	 * @param user
+	 * @return
+	 */
+	public int idCheck(DTO dto) {
+		String statement = this.NAMESPACE+".idCheck";//kr.co.ehr.user.get_selectOne
+		User user = (User) dto;
+		LOG.debug("========================");
+		LOG.debug("01.param="+user);
+		LOG.debug("========================");
+		
+		LOG.debug("========================");
+		LOG.debug("02.statement="+statement);
+		LOG.debug("========================");
+		
+		int flag = this.sqlSessionTemplate.selectOne(statement, user);
+		
+		LOG.debug("========================");
+		LOG.debug("03.flag="+flag);
+		LOG.debug("========================");		
+		return flag;		
+	}
+	
+	/**
+	 * 비번 확인
+	 * @param user
+	 * @return
+	 */
+	public int passCheck(DTO dto) {
+		String statement = this.NAMESPACE+".passCheck";//kr.co.ehr.user.get_selectOne
+		User user = (User) dto;
+		LOG.debug("========================");
+		LOG.debug("01.param="+user);
+		LOG.debug("========================");
+		
+		LOG.debug("========================");
+		LOG.debug("02.statement="+statement);
+		LOG.debug("========================");
+		
+		int flag = this.sqlSessionTemplate.selectOne(statement, user);
+		
+		LOG.debug("========================");
+		LOG.debug("03.flag="+flag);
+		LOG.debug("========================");		
+		return flag;			
+	}
+	
 	public List<User> getAll(){
 		String statement = this.NAMESPACE+".get_all";//kr.co.ehr.user.get_retrieve
 		

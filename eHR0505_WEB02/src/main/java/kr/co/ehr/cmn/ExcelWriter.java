@@ -43,6 +43,7 @@ public class ExcelWriter {
 	
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
+	
 	/**
 	 * 
 	 * @param list
@@ -145,7 +146,11 @@ public class ExcelWriter {
 			}
 
 		}
-
+		//컬럼사이즈 
+		for(int i=0;i<headers.size();i++){
+			sheet.autoSizeColumn( (short)i); 
+			sheet.setColumnWidth(i, sheet.getColumnWidth(i)+512);
+		}
 		//02.년월 디렉토리 생성:D:\\HR_FILE\2019\09
 		String path = StringUtil.dynamicDir();
 		String excelFileNm = StringUtil.getUUID();
@@ -369,7 +374,11 @@ public class ExcelWriter {
 			}
 
 		}
-
+		//컬럼사이즈 
+		for(int i=0;i<headers.size();i++){
+			sheet.autoSizeColumn( (short)i); 
+			sheet.setColumnWidth(i, sheet.getColumnWidth(i)+512);
+		}
 		//02.년월 디렉토리 생성:D:\\HR_FILE\2019\09
 		String path = StringUtil.dynamicDir();
 		String excelFileNm = StringUtil.getUUID();

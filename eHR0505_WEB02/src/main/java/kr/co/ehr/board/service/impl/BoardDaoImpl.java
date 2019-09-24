@@ -121,12 +121,12 @@ public class BoardDaoImpl implements WorkDiv {
 		LOG.debug("02.statement="+statement);
 		LOG.debug("========================");
 		
-		User outUser = this.sqlSessionTemplate.selectOne(statement, board);
+		Board outBoard = this.sqlSessionTemplate.selectOne(statement, board);
 		
 		LOG.debug("========================");
-		LOG.debug("03.outUser="+outUser);
-		LOG.debug("========================");		
-		return outUser;
+		LOG.debug("03.outBoard="+outBoard);
+		LOG.debug("========================");		  
+		return outBoard;
 	}
 
 	@Override

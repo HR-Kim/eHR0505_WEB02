@@ -96,7 +96,20 @@
 		u_id = #{u_id,jdbcType=VARCHAR}
 	</update>
 
-
+    <!-- ID 확인 -->
+    <select id="idCheck" parameterType="User" resultType="int">
+		SELECT COUNT(*) as cnt
+		FROM USERS        
+		WHERE U_ID = #{u_id,jdbcType=VARCHAR}        
+    </select>
+    <!-- 비번 확인 -->
+    <select id="passCheck" parameterType="User" resultType="int">
+		SELECT COUNT(*) as cnt 
+		FROM USERS         
+		WHERE U_ID = #{u_id,jdbcType=VARCHAR}     
+		AND PASSWD = #{passwd,jdbcType=VARCHAR}    
+    </select>    
+    
 	<!-- 단건조회 -->
 	<select id="get_selectOne" parameterType="User"
 		resultType="User">

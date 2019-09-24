@@ -22,10 +22,10 @@ public class StringUtil {
 	private static Logger LOG = LoggerFactory.getLogger(StringUtil.class);
 
 	// File Root 디렉토리
-	public static final String UPLOAD_ROOT = "D:\\HR_FILE";
+	public static final String UPLOAD_ROOT = "C:\\HR_FILE";
 
 	/**
-	 * D:\\HR_FILE\2019\09
+	 * C:\\HR_FILE\2019\09
 	 */
 	public static String dynamicDir() {
 		// 01.동적으로 UPLOAD_ROOT 디렉토리 생성

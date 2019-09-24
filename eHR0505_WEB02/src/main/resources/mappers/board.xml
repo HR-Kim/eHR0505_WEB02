@@ -69,8 +69,8 @@
 	<update id="do_updateReadCnt" parameterType="Board">
 		UPDATE BOARD
 		SET
-			READ_CNT = (SELECT NVL(MAX(READ_CNT),0)+1 FROM BOARD  WHERE BOARD_ID = #{BOARD_ID,jdbcType=VARCHAR})
-		WHERE BOARD_ID = #{BOARD_ID,jdbcType=VARCHAR}
+			READ_CNT = (SELECT NVL(MAX(READ_CNT),0)+1 FROM BOARD  WHERE BOARD_ID = #{boardId,jdbcType=VARCHAR})
+		WHERE BOARD_ID = #{boardId,jdbcType=VARCHAR}
 	</update>
 	
 	<update id="do_update" parameterType="Board">
@@ -80,13 +80,13 @@
 			CONTENTS= #{contents,jdbcType=VARCHAR},
 			REG_ID= #{regId,jdbcType=VARCHAR},
 			REG_DT = SYSDATE
-		WHERE BOARD_ID = #{BOARD_ID,jdbcType=VARCHAR}
+		WHERE BOARD_ID = #{boardId,jdbcType=VARCHAR}
 	</update>
 
 
 	<!-- 단건조회 -->
 	<select id="get_selectOne" parameterType="Board"
-		resultType="User">
+		resultType="Board">
 		SELECT
 		<include refid="userColumns" />
 		FROM
@@ -107,7 +107,7 @@
 		    #{title,jdbcType=VARCHAR},
 		    NVL(#{readCnt,jdbcType=NUMERIC},0),
 		    #{contents,jdbcType=VARCHAR},
-		    #{regId,jdbcType=VARCHAR},
+		    NVL(#{regId,jdbcType=VARCHAR},'UNKNOWN_USER'),
 		    SYSDATE
 		)
 	</insert>

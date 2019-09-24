@@ -32,6 +32,8 @@
 	
 	<context:component-scan base-package="kr.co.ehr" />
 	
+
+	
 	
 	
 </beans:beans>

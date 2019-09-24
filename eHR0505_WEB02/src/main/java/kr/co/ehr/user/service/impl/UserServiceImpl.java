@@ -230,6 +230,40 @@ public class UserServiceImpl implements UserService {
 		}
 		return saveFileNm;
 	}
+
+
+	@Override
+	public DTO do_loginValidation(DTO dto){
+		kr.co.ehr.cmn.Message msg=new kr.co.ehr.cmn.Message();
+		//--------------------------------------------
+		//1. IDCHECK
+		//--------------------------------------------
+		int flag = userDao.idCheck(dto);
+		if(flag == 0) {
+			msg.setMsgId("10");
+			msg.setMsgMsg("아이디를 확인 하세요.");
+		}
+		//--------------------------------------------
+		//2. 비번CHECK
+		//--------------------------------------------
+		flag = userDao.passCheck(dto);
+		if(flag == 0) {
+			msg.setMsgId("20");
+			msg.setMsgMsg("비번을 확인 하세요.");
+		}
+
+		//--------------------------------------------
+		//3. ID/비번 일치 
+		//--------------------------------------------
+		if(flag == 1) {
+			msg.setMsgId(String.valueOf(flag));
+			msg.setMsgMsg("아이디/비번이 정상 확인 되었습니다.");
+			
+		}
+		
+		
+		return msg;
+	}
 	
 	
 	

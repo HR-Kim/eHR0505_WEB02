@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,10 +27,12 @@ import org.springframework.web.servlet.View;
 
 import com.google.gson.Gson;
 
+import kr.co.ehr.board.service.LoginValidator;
 import kr.co.ehr.cmn.Message;
 import kr.co.ehr.cmn.StringUtil;
 import kr.co.ehr.code.service.Code;
 import kr.co.ehr.code.service.CodeService;
+import kr.co.ehr.user.service.Login;
 import kr.co.ehr.user.service.Search;
 import kr.co.ehr.user.service.User;
 import kr.co.ehr.user.service.UserService;
@@ -45,7 +53,57 @@ public class UserController {
 	
 	//View
 	private final String VIEW_NM = "user/user_mng";
-	//http://localhost:8080/ehr/user/do_user_view.do
+	
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		binder.setValidator(new LoginValidator());
+	}
+	
+	@RequestMapping(value="user/do_login.do",method = RequestMethod.GET)
+	public String do_login(HttpServletRequest req) {
+		LOG.debug("=========================");
+		LOG.debug("=@Controller req=="+StringUtil.nvl(req.getParameter("lang")));
+		LOG.debug("=========================");	
+		return "/user/login";
+	}
+	//로그인
+	@RequestMapping(value="user/do_login.do",method = RequestMethod.POST
+			,produces = "application/json; charset=UTF-8")
+	@ResponseBody	
+	public String do_login(@ModelAttribute("user") User user,HttpSession httpSession,Model model, BindingResult result) {
+		LOG.debug("=========================");
+		LOG.debug("=@Controller user=="+user);
+		LOG.debug("=========================");	
+		LoginValidator  loginValidator=new LoginValidator();
+		loginValidator.validate(user, result);
+		if(result.hasErrors()) {
+			return "/user/login";
+		}
+		
+		Message msg =(Message) userService.do_loginValidation(user);
+		
+		//ID 확인(10),비번 확인(20)
+		if(msg.getMsgMsg().equals("10") || msg.getMsgMsg().equals("20")) {
+			
+		//로그인 성공
+		}else {
+			//사용자 정보조회 및 Session생성
+			User outVO = (User) userService.get_selectOne(user);
+			//BASIC->1
+			outVO.setLevel(outVO.gethLevel().intValue());
+			httpSession.setAttribute("user", outVO);
+		}
+//		model.addAttribute("user", msg);
+		
+		Gson gson=new Gson();
+		String json = gson.toJson(msg);
+		LOG.debug("=========================");
+		LOG.debug("=@Controller gson=user=="+json);
+		LOG.debug("=@Controller msg=="+msg.toString());
+		LOG.debug("=========================");	
+		
+		return json;
+	}
 	
 	//ExcelDown
 	@RequestMapping(value="user/exceldown.do",method=RequestMethod.GET)
