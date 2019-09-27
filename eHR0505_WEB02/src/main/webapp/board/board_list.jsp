@@ -108,7 +108,7 @@
 	<div class="container">
 		<!-- div title -->
 		<div class="page-header">
-			<h1>게시판</h1>
+			<h1><spring:message code="message.board.title"/></h1>
 		</div>
 		<!--// div title -->
 
@@ -142,8 +142,8 @@
 				    <th class="text-center col-md-1 col-xs-1" style="display:none;">ID</th>
 					<th class="text-center col-md-1 col-xs-1"><spring:message code="message.board.num"/></th>
 					<th class="text-center col-md-9 col-xs-6 "><spring:message code="message.board.title"/></th>
-					<th class="text-center col-md-1 col-xs-1"><spring:message code="message.board.reg_id"/></th>
-					<th class="text-center col-md-1 col-xs-1"><spring:message code="message.board.read_cnt"/></th>
+					<th class="text-center col-md-1 hidden-sm hidden-xs"><spring:message code="message.board.reg_id"/></th>
+					<th class="text-center col-md-1 hidden-sm hidden-xs"><spring:message code="message.board.read_cnt"/></th>
 					<th class="text-center col-md-1 col-xs-2"><spring:message code="message.board.reg_dt"/></th>
 				</thead>
 
@@ -155,8 +155,8 @@
 							    <td style="display:none;"><c:out value="${vo.boardId }"/></td>
 								<td class="text-center"><c:out value="${vo.num }"/></td>
 								<td class="text-left"><c:out value="${vo.title }"/></td>
-								<td class="text-center"><c:out value="${vo.regId }"/></td>
-								<td class="text-right"><c:out value="${vo.readCnt }"/></td>
+								<td class="text-center  hidden-sm hidden-xs"><c:out value="${vo.regId }"/></td>
+								<td class="text-right  hidden-sm hidden-xs"><c:out value="${vo.readCnt }"/></td>
 								<td class="text-center"><c:out value="${vo.regDt }"/></td>
 							</tr>
 					       </c:forEach>

@@ -23,7 +23,12 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1,minimum-scale=1,maximum-scale=1">
+<style type="text/css">
+#wrap{
+    width:90%
+}
+</style>
 <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
 <title>게시관리</title>
 
@@ -41,6 +46,7 @@
 </head>
 <body>
 	<!-- div container -->
+	<div id="wrap">
 	<div class="container">
 		<!-- div title -->
 		<div class="page-header">
@@ -48,200 +54,247 @@
 		</div>
 		<!--// div title -->
 		<!-- Button Area -->
-         <div class="row">
-             <div class="col-lg-10 col-sm-10 col-xs-10">
-                 <div class="text-right">
-                     <button type="button" class="btn btn-default btn-sm" id="doInit">초기화</button>
-                     <button type="button" class="btn btn-default btn-sm" id="doRetrieve">목록</button>
-                     <button type="button" class="btn btn-default btn-sm" id="doSave">등록</button>
-                     <button type="button" class="btn btn-default btn-sm" id="doUpdate">수정</button>
-                     <button type="button" class="btn btn-default btn-sm" id="doDelete">삭제</button>
-                 </div>
-             </div>
-         </div>
-         <div class="col-lg-12"></div>
+		<div class="row">
+			<div class="col-lg-10 col-sm-2 text-right col-xs-10">
+				<div class="text-right">
+					<button type="button" class="btn btn-default btn-sm" id="doInit">초기화</button>
+					<button type="button" class="btn btn-default btn-sm"
+						id="doRetrieve">목록</button>
+					<button type="button" class="btn btn-default btn-sm" id="doSave"
+						disabled="disabled">등록</button>
+					<button type="button" class="btn btn-default btn-sm" id="doUpdate">수정</button>
+					<button type="button" class="btn btn-default btn-sm" id="doDelete">삭제</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-12"></div>
 		<!-- div title -->
-		<form action="do_update.do" name="frmEdit" id="frmEdit" method="post" class="form-horizontal">
-		    <input type="hidden"   class="form-control input-sm" id="boardId"  name="boardId" value="${vo.boardId }" />
+		<form action="do_update.do" name="frmEdit" id="frmEdit" method="post"
+			class="form-horizontal">
+			<input type="hidden" class="form-control input-sm" id="boardId"
+				name="boardId" value="${vo.boardId }" />
 			<div class="form-group">
 				<label for="title" class="col-sm-2 control-label">제목</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="title" name="title" placeholder="제목" value="${vo.title }">
+					<input type="text" class="form-control" id="title" name="title"
+						placeholder="제목" value="${vo.title }">
 				</div>
 			</div>
-            <div class="form-group">
-                <label for="regId" class="col-sm-2 control-label">등록자</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" id="regId" name="regId" placeholder="등록자" value="${vo.regId }">
-                </div>
-            </div>			
-            <div class="form-group">
-                <label for="regDt" class="col-sm-2 control-label">등록일</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" id="regDt" name="regDt" placeholder="등록일" value="${vo.regDt }">
-                </div>
-             
-                <label for="readCnt" class="col-sm-2 control-label">조회수</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" id="readCnt" name="readCnt" placeholder="제목" value="${vo.readCnt }">
-                </div>               
-            </div>
+			<div class="form-group">
+				<label for="regId" class="col-sm-2 control-label">등록자</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="regId" name="regId"
+						placeholder="등록자" value="${vo.regId }">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="regDt" class="col-sm-2 control-label">등록일</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" id="regDt" name="regDt"
+						placeholder="등록일" value="${vo.regDt }">
+				</div>
+
+				<label for="readCnt" class="col-sm-2 control-label">조회수</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" id="readCnt" name="readCnt"
+						placeholder="제목" value="${vo.readCnt }">
+				</div>
+			</div>
 			<div class="form-group">
 				<label for="inputEmail3" class="col-sm-2 control-label">내용</label>
 				<div class="col-sm-8">
-					<textarea name="contents" id="contents" class="form-control" rows="8" placeholder="내용">${vo.contents }</textarea>
+					<textarea name="contents" id="contents" class="form-control"
+						rows="8" placeholder="내용">${vo.contents }</textarea>
 				</div>
 			</div>
 		</form>
 	</div>
+	</div>
 	<!--// div container -->
 	<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
 	<script src="${context}/resources/js/jquery-1.12.4.js"></script>
+	<script src="${context}/resources/js/jquery.validate.js"></script>
 	<!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
 	<script src="${context}/resources/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
-    function doRetrieve(){
-        var frm = document.frmEdit;
-        frm.action = "${context}/board/get_retrieve.do";
-        frm.method = 'GET';
-        frm.submit();
-    }
-    $("#doRetrieve").on("click",function(){
-    	doRetrieve();
-    });
-    
-    //저장
-    $("#doSave").on("click",function(){
-        
-        if(false==confirm("저장 하시겠습니까?"))return;
-        
-        $.ajax({
-            type:"POST",
-            url:"${context}/board/do_save.do",
-            dataType:"html",// JSON
-            data:{
-                "title": $("#title").val(),
-                "contents": $("#contents").val()
-            },
-            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-                //console.log(data);
-                //{"msgId":"1","msgMsg":"삭제 되었습니다.","totalCnt":0,"num":0}
-                var parseData = $.parseJSON(data);
-                if(parseData.msgId=="1"){
-                    alert(parseData.msgMsg);
-                    doRetrieve();
-                }else{
-                    alert(parseData.msgMsg);
-                }
-                
-            },
-            complete: function(data){//무조건 수행
-             
-            },
-            error: function(xhr,status,error){
-             
-            }
-        });             
-    });   
-    
-    //수정
-    $("#doUpdate").on("click",function(){
-        
-        if(false==confirm("수정 하시겠습니까?"))return;
-        
-        $.ajax({
-            type:"POST",
-            url:"${context}/board/do_update.do",
-            dataType:"html",// JSON
-            data:{
-                "boardId": $("#boardId").val(),
-                "title": $("#title").val(),
-                "contents": $("#contents").val(),
-                "regId": $("#regId").val()
-            },
-            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-                //console.log(data);
-                //{"msgId":"1","msgMsg":"삭제 되었습니다.","totalCnt":0,"num":0}
-                var parseData = $.parseJSON(data);
-                if(parseData.msgId=="1"){
-                    alert(parseData.msgMsg);
-                    doRetrieve();
-                }else{
-                    alert(parseData.msgMsg);
-                }
-                
+		function doRetrieve() {
+			var frm = document.frmEdit;
+			frm.action = "${context}/board/get_retrieve.do";
+			frm.method = 'GET';
+			frm.submit();
+		}
+		$("#doRetrieve").on("click", function() {
+			doRetrieve();
+		});
 
-                
-            },
-            complete: function(data){//무조건 수행
-             
-            },
-            error: function(xhr,status,error){
-             
-            }
-        });             
-    });
-    
-    //삭제
-    $("#doDelete").on("click",function(){
-        console.log($("#boardId").val());
-        
-        
-        if(""==$("#boardId").val() || null == $("#boardId").val()){
-            alert("삭제할 데이터를 선택 하세요.");
-            return;
-        }
-        
-        if(confirm("삭제 하시겠습니까?") == false)return;
-        
-        
+		//저장
+		$("#doSave").on("click", function() {
+			//validation
+			if ($("#boardEditFrm").valid() == false)
+				return;
+			if (false == confirm("저장 하시겠습니까?"))
+				return;
 
-        $.ajax({
-            type:"POST",
-            url:"${context}/board/do_delete.do",
-            dataType:"html",// JSON
-            data:{
-                "boardId": $("#boardId").val()
-            },
-            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-                //console.log(data);
-                //{"msgId":"1","msgMsg":"삭제 되었습니다.","totalCnt":0,"num":0}
-                var parseData = $.parseJSON(data);
-                if(parseData.msgId=="1"){
-                    alert(parseData.msgMsg);
-                    doRetrieve();
-                }else{
-                    alert(parseData.msgMsg);
-                }
-                
+			$.ajax({
+				type : "POST",
+				url : "${context}/board/do_save.do",
+				dataType : "html",// JSON
+				data : {
+					"title" : $("#title").val(),
+					"contents" : $("#contents").val()
+				},
+				success : function(data) {//통신이 성공적으로 이루어 졌을때 받을 함수
+					//console.log(data);
+					//{"msgId":"1","msgMsg":"삭제 되었습니다.","totalCnt":0,"num":0}
+					var parseData = $.parseJSON(data);
+					if (parseData.msgId == "1") {
+						alert(parseData.msgMsg);
+						doRetrieve();
+					} else {
+						alert(parseData.msgMsg);
+					}
 
-                
-            },
-            complete: function(data){//무조건 수행
-             
-            },
-            error: function(xhr,status,error){
-             
-            }
-        });                     
-    });	
-	    //초기화
-	    $("#doInit").on("click",function(){
-	        $("#boardId").val("");
-	        $("#title").val("");
-	        $("#readCnt").val("");
-	        $("#contents").val("");
-	        $("#regId").val("");
-	        $("#regDt").val("");
-	        
-	        $("#boardId").prop("disabled",true);
-	        $("#readCnt").prop("disabled",true);
-	        $("#regId").prop("disabled",true);
-	        $("#regDt").prop("disabled",true);
-	        
-	        $("#doSave").prop("disabled",false);
-	        $("#doUpdate").prop("disabled",true);
-	    });
+				},
+				complete : function(data) {//무조건 수행
+
+				},
+				error : function(xhr, status, error) {
+
+				}
+			});
+		});
+
+		//수정
+		$("#doUpdate").on("click", function() {
+			//validation
+			if ($("#boardEditFrm").valid() == false)
+				return;
+			if (false == confirm("수정 하시겠습니까?"))
+				return;
+
+			$.ajax({
+				type : "POST",
+				url : "${context}/board/do_update.do",
+				dataType : "html",// JSON
+				data : {
+					"boardId" : $("#boardId").val(),
+					"title" : $("#title").val(),
+					"contents" : $("#contents").val(),
+					"regId" : $("#regId").val()
+				},
+				success : function(data) {//통신이 성공적으로 이루어 졌을때 받을 함수
+					//console.log(data);
+					//{"msgId":"1","msgMsg":"삭제 되었습니다.","totalCnt":0,"num":0}
+					var parseData = $.parseJSON(data);
+					if (parseData.msgId == "1") {
+						alert(parseData.msgMsg);
+						doRetrieve();
+					} else {
+						alert(parseData.msgMsg);
+					}
+
+				},
+				complete : function(data) {//무조건 수행
+
+				},
+				error : function(xhr, status, error) {
+
+				}
+			});
+		});
+
+		//삭제
+		$("#doDelete").on("click", function() {
+			console.log($("#boardId").val());
+
+			if ("" == $("#boardId").val() || null == $("#boardId").val()) {
+				alert("삭제할 데이터를 선택 하세요.");
+				return;
+			}
+
+			if (confirm("삭제 하시겠습니까?") == false)
+				return;
+
+			$.ajax({
+				type : "POST",
+				url : "${context}/board/do_delete.do",
+				dataType : "html",// JSON
+				data : {
+					"boardId" : $("#boardId").val()
+				},
+				success : function(data) {//통신이 성공적으로 이루어 졌을때 받을 함수
+					//console.log(data);
+					//{"msgId":"1","msgMsg":"삭제 되었습니다.","totalCnt":0,"num":0}
+					var parseData = $.parseJSON(data);
+					if (parseData.msgId == "1") {
+						alert(parseData.msgMsg);
+						doRetrieve();
+					} else {
+						alert(parseData.msgMsg);
+					}
+
+				},
+				complete : function(data) {//무조건 수행
+
+				},
+				error : function(xhr, status, error) {
+
+				}
+			});
+		});
+		//초기화
+		$("#doInit").on("click", function() {
+			$("#boardId").val("");
+			$("#title").val("");
+			$("#readCnt").val("");
+			$("#contents").val("");
+			$("#regId").val("");
+			$("#regDt").val("");
+
+			$("#boardId").prop("disabled", true);
+			$("#readCnt").prop("disabled", true);
+			$("#regId").prop("disabled", true);
+			$("#regDt").prop("disabled", true);
+			$("#doSave").prop("disabled", false);
+			$("#doUpdate").prop("disabled", true);
+		});
+
+		$("#boardEditFrm").validate({
+			onfocusout : false,
+			rules : {
+				title : {
+					required : true,
+					maxlength : 100
+				},
+				contents : {
+					required : true,
+					maxlength : 10000
+				}
+
+			},
+			messages : {
+				title : {
+					required : '제목은  필수 입력값 입니다.',
+					maxlength : $.validator.format('{0}자 내로 입력 하세요.')
+				},
+				contents : {
+					required : '내용은  필수 입력값 입니다.',
+					maxlength : $.validator.format('{0}자 내로 입력 하세요.')
+				}
+			},
+			errorPlacement : function(error, element) {
+				//do nothing
+			},
+			invalidHandler : function(form, validator) {
+				var errors = validator.numberOfInvalids();
+				if (errors) {
+					alert(validator.errorList[0].message);
+					validator.errorList[0].element.focus();
+				}
+			}
+
+		});
+
 		$(document).ready(function() {
 			//alert("ready");
 		});

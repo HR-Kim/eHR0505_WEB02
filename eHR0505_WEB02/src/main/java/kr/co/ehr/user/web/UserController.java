@@ -2,9 +2,11 @@ package kr.co.ehr.user.web;
 
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
@@ -51,13 +54,22 @@ public class UserController {
 	@Autowired
 	CodeService codeService;
 	
+	@Autowired
+	private LocaleResolver localeResolver;
+	
+//	public void setLocaleResolver(LocaleResolver localeResolver) {
+//		this.localeResolver = localeResolver;
+//	}
+
+
 	//View
 	private final String VIEW_NM = "user/user_mng";
+	private final String VIEW_MAIN_NM = "main/main";
 	
-	@InitBinder
-	protected void initBinder(WebDataBinder binder) {
-		binder.setValidator(new LoginValidator());
-	}
+//	@InitBinder
+//	protected void initBinder(WebDataBinder binder) {
+//		binder.setValidator(new LoginValidator());
+//	}
 	
 	@RequestMapping(value="user/do_login.do",method = RequestMethod.GET)
 	public String do_login(HttpServletRequest req) {
@@ -67,24 +79,17 @@ public class UserController {
 		return "/user/login";
 	}
 	//로그인
-	@RequestMapping(value="user/do_login.do",method = RequestMethod.POST
-			,produces = "application/json; charset=UTF-8")
-	@ResponseBody	
-	public String do_login(@ModelAttribute("user") User user,HttpSession httpSession,Model model, BindingResult result) {
+	@RequestMapping(value="user/do_login.do",method = RequestMethod.POST)
+	public String do_login(@ModelAttribute("user") User user,HttpSession httpSession, HttpServletRequest request,HttpServletResponse response) {
 		LOG.debug("=========================");
 		LOG.debug("=@Controller user=="+user);
 		LOG.debug("=========================");	
-		LoginValidator  loginValidator=new LoginValidator();
-		loginValidator.validate(user, result);
-		if(result.hasErrors()) {
-			return "/user/login";
-		}
 		
 		Message msg =(Message) userService.do_loginValidation(user);
 		
 		//ID 확인(10),비번 확인(20)
 		if(msg.getMsgMsg().equals("10") || msg.getMsgMsg().equals("20")) {
-			
+			return "user/login";
 		//로그인 성공
 		}else {
 			//사용자 정보조회 및 Session생성
@@ -92,17 +97,13 @@ public class UserController {
 			//BASIC->1
 			outVO.setLevel(outVO.gethLevel().intValue());
 			httpSession.setAttribute("user", outVO);
+			//locale설정
+			Locale locale=new Locale(user.getLang());
+			localeResolver.setLocale(request, response, locale);
 		}
-//		model.addAttribute("user", msg);
 		
-		Gson gson=new Gson();
-		String json = gson.toJson(msg);
-		LOG.debug("=========================");
-		LOG.debug("=@Controller gson=user=="+json);
-		LOG.debug("=@Controller msg=="+msg.toString());
-		LOG.debug("=========================");	
 		
-		return json;
+		return VIEW_MAIN_NM;
 	}
 	
 	//ExcelDown

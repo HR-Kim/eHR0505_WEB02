@@ -47,21 +47,22 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-			    <a href "${context}/user/do_login.do?lang=en"><spring:message code="message.login.language.en"/></a>&nbsp;&nbsp;<a href ="${context}/user/do_login.do?lang=ko"><spring:message code="message.login.language.ko"/></a>
-				<form:form htmlEscape="true" cssClass="login100-form validate-form"  action="${context}/user/do_login.do" commandName="user" name="user"  method="post">
+				<form  action="${context}/user/do_login.do" name="user"  method="post">
 					<span class="login100-form-title p-b-33"><spring:message code="message.login.title"></spring:message> </span>
-					<div class="wrap-input100 validate-input"
-						data-validate="Valid 아이디 is required">
-						<input class="input100" type="text" name="u_id"  id="u_id" placeholder='<spring:message code="message.login.u_id"/>' value="${user.u_id }">
-						<form:errors path="u_id"></form:errors>
+					<div class="form-group">
+					        <select class="form-control" id="lang" name="lang">
+					            <option value="ko">한글</option>
+					            <option value="en">영어</option>
+					        </select>
+					</div>					
+					
+					<div class="form-group">
+						<input class="form-control input-sm" type="text" name="u_id"  id="u_id" placeholder='아이디' value="${user.u_id }">
 					</div>
-					<div class="wrap-input100 rs1 validate-input"
-						data-validate="Password is required">
-						<input class="input100" type="password" name="passwd" id="passwd"  placeholder='<spring:message code="message.login.password"/>'><span class="focus-input100-1"></span>
-						<span class="focus-input100-2"></span>
-						<form:errors path="passwd"></form:errors>
+					<div class="form-group">
+						<input class="form-control input-sm" type="password" name="passwd" id="passwd"  placeholder='비밀번호'>
 					</div>
-				</form:form>	
+				</form>	
 					<div class="container-login100-form-btn m-t-20">
 						<button class="login100-form-btn" id="signIn"><spring:message code="message.login.signBtn"/></button>
 					</div>
@@ -90,12 +91,12 @@
             frm.submit();
 	    }
 	    
-	    $("#signIn888999").on("click",function(){
+	    $("#signIn").on("click",function(){
 	    	if(false==confirm("로그인 하시겠습니까?"))return;
 	    	do_retrieve();
 	    });
 	
-	    $("#signIn").on("click",function(){
+	    $("#signIn99").on("click",function(){
 	    	//alert("signIn");
 	    	if(false==confirm("로그인 하시겠습니까?"))return;
 	        
@@ -105,7 +106,8 @@
 	            dataType:"html",// JSON
 	            data:{
 	                "u_id": $("#u_id").val(),
-	                "passwd": $("#passwd").val()
+	                "passwd": $("#passwd").val(),
+	                 
 	            },
 	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 	                console.log(data);

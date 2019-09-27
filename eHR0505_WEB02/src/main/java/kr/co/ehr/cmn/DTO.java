@@ -1,6 +1,16 @@
 package kr.co.ehr.cmn;
 
 public class DTO {
+	/**로케일*/
+	private String lang;
+	
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
 
 	/** 총 글 수 */
 	private int totalCnt;
@@ -28,7 +38,9 @@ public class DTO {
 
 	@Override
 	public String toString() {
-		return "DTO [totalCnt=" + totalCnt + ", num=" + num + "]";
+		return "DTO [lang=" + lang + ", totalCnt=" + totalCnt + ", num=" + num + "]";
 	}
+
+
 
 }
